@@ -23,7 +23,7 @@ const Header = () => {
     <header className="header">
       <div className="logo">
         <Link to="/">
-          <img src="/src/assets/logo.jpeg" alt="CM Mart" />
+          <img src="https://res.cloudinary.com/dgyykbmt6/image/upload/v1772460868/cm3_zvfuyu.jpg" alt="CM Mart" />
           <span className="brand-name">CM Super Mart</span>
         </Link>
       </div>

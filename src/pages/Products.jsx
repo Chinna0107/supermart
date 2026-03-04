@@ -5,6 +5,7 @@ import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import config from '../config';
 import './Products.css';
 
 const Products = () => {
@@ -34,7 +35,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/products');
+      const response = await axios.get(`${config.API_URL}/api/products`);
       if (response.data.success) {
         setAllProducts(response.data.products);
         const uniqueCategories = ['All', ...new Set(response.data.products.map(p => p.category))];

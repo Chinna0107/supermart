@@ -4,10 +4,15 @@ import './Footer.css';
 const Footer = () => {
   return (
     <footer className="footer">
+      {/* <div className="footer-logo-center">
+        <div className="footer-logo-circle">
+          <img src="/src/assets/logo.jpeg" alt="CM Super Mart" />
+        </div>
+      </div> */}
       <div className="footer-content">
         <div className="footer-section">
           <h3>CM Super Mart</h3>
-          <p>CM Super Mart is a premium shop offering wood cold-pressed oils, A2 Gir Cow Ghee, premium dry fruits, spices, raw rice, and more — all naturally pure and chemical-free.</p>
+          <p>CM Super Mart is a premium super mart offers the best quality products at competitive prices.</p>
         </div>
         <div className="footer-section">
           <h4>Quick Links</h4>
@@ -55,7 +60,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>Made with ❤️ by <a href="https://staffarc.com" target="_blank" rel="noopener noreferrer">StaffArc</a></p>
+        <p>Made with ❤️ by <a href="https://staffarc.in" target="_blank" rel="noopener noreferrer">StaffArc</a></p>
         <p>© 2026 CM Super Mart. All rights reserved.</p>
       </div>
     </footer>

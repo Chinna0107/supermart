@@ -32,6 +32,24 @@
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
 }
 
+.admin-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-btn .spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 .admin-content {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);

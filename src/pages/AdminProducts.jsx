@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import config from '../config';
 import AdminHeader from '../components/AdminHeader';
 import './AdminProducts.css';
 
@@ -8,6 +11,7 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -32,7 +36,7 @@ const AdminProducts = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:3000/api/users/verify', {
+      const response = await axios.get(`${config.API_URL}/api/users/verify`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -59,7 +63,7 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/products', {
+      const response = await axios.get(`${config.API_URL}/api/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.data.success) {
@@ -78,10 +82,10 @@ const AdminProducts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
       
-      // Convert prices object to numbers
       const numericPrices = {};
       Object.keys(formData.prices).forEach(key => {
         numericPrices[key] = Number(formData.prices[key]);
@@ -90,20 +94,19 @@ const AdminProducts = () => {
       const productData = {
         ...formData,
         prices: numericPrices,
-        // Keep backward compatibility - use first price as default price
         price: Object.values(numericPrices)[0] || 0
       };
       
       if (editingProduct) {
-        await axios.put(`http://localhost:3000/api/products/${editingProduct.id}`, productData, {
+        await axios.put(`${config.API_URL}/api/products/${editingProduct.id}`, productData, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        alert('Product updated successfully!');
+        toast.success('Product updated successfully!', { autoClose: 1500 });
       } else {
-        await axios.post('http://localhost:3000/api/products', productData, {
+        await axios.post(`${config.API_URL}/api/products`, productData, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        alert('Product added successfully!');
+        toast.success('Product added successfully!', { autoClose: 1500 });
       }
       fetchProducts();
       resetForm();
@@ -114,8 +117,10 @@ const AdminProducts = () => {
         localStorage.removeItem('user');
         navigate('/login');
       } else {
-        alert('Error saving product: ' + (error.response?.data?.message || error.message));
+        toast.error('Error saving product: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,10 +128,10 @@ const AdminProducts = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:3000/api/products/${id}`, {
+        await axios.delete(`${config.API_URL}/api/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        alert('Product deleted successfully!');
+        toast.success('Product deleted successfully!', { autoClose: 1500 });
         fetchProducts();
       } catch (error) {
         if (error.response?.status === 401) {
@@ -134,7 +139,7 @@ const AdminProducts = () => {
           localStorage.removeItem('user');
           navigate('/login');
         } else {
-          alert('Error deleting product: ' + error.message);
+          toast.error('Error deleting product: ' + error.message, { autoClose: 1500 });
         }
       }
     }
@@ -197,6 +202,7 @@ const AdminProducts = () => {
   return (
     <>
       <AdminHeader />
+      <ToastContainer position="top-right" autoClose={1500} />
       <div className="admin-page">
         <div className="admin-content">
         <div className="admin-actions-bar">
@@ -326,8 +332,13 @@ const AdminProducts = () => {
               <button type="button" className="admin-btn cancel-btn" onClick={resetForm}>
                 Cancel
               </button>
-              <button type="submit" className="admin-btn">
-                {editingProduct ? 'Update Product' : 'Add Product'}
+              <button type="submit" className="admin-btn" disabled={loading}>
+                {loading ? (
+                  <>
+                    <span className="spinner"></span>
+                    {editingProduct ? 'Updating...' : 'Adding...'}
+                  </>
+                ) : (editingProduct ? 'Update Product' : 'Add Product')}
               </button>
             </div>
           </form>

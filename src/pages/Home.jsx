@@ -6,12 +6,15 @@ import Slider from 'react-slick';
 import { MdLocalGroceryStore, MdVerified, MdLocalShipping } from 'react-icons/md';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import config from '../config';
 import './Home.css';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [sliders, setSliders] = useState([]);
   const [selectedWeights, setSelectedWeights] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [sliderLoaded, setSliderLoaded] = useState(false);
   const { cart, addToCart, updateQuantity, isInCart, getCartQuantity } = useCart();
   const navigate = useNavigate();
 
@@ -22,11 +25,11 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/products');
+      const response = await axios.get(`${config.API_URL}/api/products`);
       if (response.data.success) {
-        setProducts(response.data.products.slice(0, 15));
+        setProducts(response.data.products.slice(0, 4));
       } else if (Array.isArray(response.data)) {
-        setProducts(response.data.slice(0, 15));
+        setProducts(response.data.slice(0, 4));
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -34,8 +37,16 @@ const Home = () => {
   };
 
   const fetchSliders = async () => {
+    setSliders([
+      { id: 1, imageUrl: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1200&h=400&fit=crop', title: 'Grocery Store' },
+      { id: 2, imageUrl: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=400&fit=crop', title: 'Fresh Products' },
+      { id: 3, imageUrl: 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?w=1200&h=400&fit=crop', title: 'Organic Food' }
+    ]);
+    setSliderLoaded(true);
+    setLoading(false);
+    
     try {
-      const response = await axios.get('http://localhost:3000/api/sliders');
+      const response = await axios.get(`${config.API_URL}/api/sliders`);
       if (response.data.success) {
         setSliders(response.data.sliders);
       } else if (Array.isArray(response.data)) {
@@ -43,12 +54,6 @@ const Home = () => {
       }
     } catch (error) {
       console.error('Error fetching sliders:', error);
-      // Fallback to default images if API fails
-      setSliders([
-        { id: 1, imageUrl: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1200&h=400&fit=crop', title: 'Grocery Store' },
-        { id: 2, imageUrl: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=400&fit=crop', title: 'Fresh Products' },
-        { id: 3, imageUrl: 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?w=1200&h=400&fit=crop', title: 'Organic Food' }
-      ]);
     }
   };
 
@@ -66,13 +71,25 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Slider {...sliderSettings} className="hero-slider">
-        {sliders.map(slider => (
-          <div key={slider.id} className="slide">
-            <img src={slider.imageUrl} alt={slider.title} />
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ border: '4px solid #f3f3f3', borderTop: '4px solid #4CAF50', borderRadius: '50%', width: '50px', height: '50px', animation: 'spin 1s linear infinite', margin: '0 auto' }}></div>
+            <p style={{ marginTop: '1rem', color: '#666' }}>Loading...</p>
           </div>
-        ))}
-      </Slider>
+        </div>
+      ) : (
+        <>
+          <Slider {...sliderSettings} className="hero-slider">
+            {sliders.map(slider => (
+              <div key={slider.id} className="slide">
+                <img src={slider.imageUrl} alt={slider.title} />
+              </div>
+            ))}
+          </Slider>
+
+          {sliderLoaded && (
+            <>
 
       <section className="features">
         <div className="feature">
@@ -105,8 +122,8 @@ const Home = () => {
             const currentPrice = product.prices?.[currentWeight] || product.price || 0;
             
             return (
-            <div key={product.id} className="product-card">
-              <img src={product.images?.[0] || product.image} alt={product.name} onClick={() => navigate('/products')} />
+            <div key={product.id} className="product-card" onClick={() => navigate('/products')} style={{ cursor: 'pointer' }}>
+              <img src={product.images?.[0] || product.image} alt={product.name} />
               <span className="category">{product.category}</span>
               <h3>{product.name}</h3>
               <div className="product-details">
@@ -125,15 +142,7 @@ const Home = () => {
                 </select>
                 <span className="price">₹{currentPrice}</span>
               </div>
-              {!isInCart(product.id, currentWeight) ? (
-                <button onClick={() => addToCart(product.id, currentWeight)}>Add to Cart</button>
-              ) : (
-                <div className="quantity-control">
-                  <button onClick={() => updateQuantity(product.id, currentWeight, -1)}>-</button>
-                  <span>{getCartQuantity(product.id, currentWeight)}</span>
-                  <button onClick={() => updateQuantity(product.id, currentWeight, 1)}>+</button>
-                </div>
-              )}
+              <button onClick={(e) => { e.stopPropagation(); navigate('/products'); }}>View Product</button>
             </div>
           )}
           )}
@@ -147,6 +156,10 @@ const Home = () => {
           <button className="shop-now" onClick={() => navigate('/products')}>Shop Now</button>
         </div>
       </section>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };

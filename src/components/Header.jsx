@@ -24,7 +24,10 @@ const Header = () => {
       <div className="logo">
         <Link to="/">
           <img src="https://res.cloudinary.com/dgyykbmt6/image/upload/v1772460868/cm3_zvfuyu.jpg" alt="CM Mart" />
-          <span className="brand-name">CM Super Mart</span>
+          <span className="brand-name">
+            <span className="brand-cm">CM</span>
+            <span className="brand-supermart"> Super Mart</span>
+          </span>
         </Link>
       </div>
       <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menu">

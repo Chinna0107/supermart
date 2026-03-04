@@ -3,18 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import config from '../config';
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', {
+      const response = await axios.post(`${config.API_URL}/api/users/login`, {
         email,
         password
       });
@@ -30,10 +33,12 @@ const Login = () => {
         setTimeout(() => navigate('/admin/products'), 1500);
       } else {
         toast.error(response.data.message || 'Login failed');
+        setLoading(false);
       }
     } catch (error) {
       console.error('Login failed:', error);
       toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -68,7 +73,14 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Logging in...
+              </>
+            ) : 'Login'}
+          </button>
         </form>
       </div>
     </div>

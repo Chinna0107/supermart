@@ -163,3 +163,37 @@
   margin-right: 8px;
   vertical-align: middle;
 }
+
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-container::before {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+  }
+
+  .login-container::after {
+    width: 260px;
+    height: 260px;
+    bottom: -130px;
+    left: -130px;
+  }
+
+  .login-box {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .login-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+}

@@ -167,3 +167,55 @@
 .values-list strong {
   color: white;
 }
+
+@media (max-width: 768px) {
+  .about-page {
+    padding: 5rem 1rem 1.5rem;
+  }
+
+  .about-page::before {
+    width: 360px;
+    height: 360px;
+    top: -180px;
+    right: -180px;
+  }
+
+  .about-container h1 {
+    font-size: 2rem;
+  }
+
+  .about-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-content {
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .features-grid {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .values-section {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container h1 {
+    font-size: 1.7rem;
+  }
+
+  .feature-card {
+    padding: 1.2rem;
+  }
+}

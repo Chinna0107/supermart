@@ -69,3 +69,33 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
 }
+
+@media (max-width: 768px) {
+  .admin-header-bar {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .admin-header-logo img {
+    height: 40px;
+  }
+
+  .admin-header-logo h1 {
+    font-size: 1.1rem;
+  }
+
+  .admin-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-user {
+    font-size: 0.9rem;
+  }
+
+  .admin-btn-header {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
+  }
+}

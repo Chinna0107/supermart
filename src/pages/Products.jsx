@@ -87,7 +87,7 @@ const Products = () => {
 
     const message = `*New Order from CM Super Mart*%0A%0A*Customer Details:*%0AName: ${formData.name}%0APhone: ${formData.phone}%0AEmail: ${formData.email}%0AAddress: ${formData.address}%0A%0A*Order Details:*%0A${orderDetails}%0A%0A*Total: ₹${total}*`;
 
-    const whatsappNumber = '919876543210';
+    const whatsappNumber = '919100009907';
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     
     clearCart();
@@ -143,43 +143,62 @@ const Products = () => {
                 No products available
               </div>
             ) : (
-              filteredProducts.map(product => {
+              filteredProducts.map((product, idx) => {
                 const defaultWeight = Array.isArray(product.grams) ? product.grams[0] : product.grams;
                 const currentWeight = selectedWeights[product.id] !== undefined ? selectedWeights[product.id] : defaultWeight;
                 const currentPrice = product.prices?.[currentWeight] || product.price || 0;
+                const badges = ['bestseller', 'popular', 'new', 'offer'];
+                const badge = badges[idx % 4];
+                const badgeLabels = { bestseller: '🔥 Best Seller', popular: '⭐ Popular', new: '🆕 New', offer: '💰 Offer' };
                 
                 return (
                 <div key={product.id} className="product-item">
-                  <img src={product.images[0]} alt={product.name} onClick={() => setSelectedProduct(product)} />
-                  <h3>{product.name}</h3>
-                  <p>{product.description || ''}</p>
-                  <div className="product-details">
-                    <select 
-                      className="grams-dropdown"
-                      value={currentWeight}
-                      onChange={(e) => {
-                        const newWeight = e.target.value;
-                        setSelectedWeights({...selectedWeights, [product.id]: newWeight});
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {Array.isArray(product.grams) ? product.grams.map((gram, idx) => (
-                        <option key={idx} value={gram}>{gram}</option>
-                      )) : <option value={product.grams}>{product.grams}</option>}
-                    </select>
-                    <span className="price">₹{currentPrice}</span>
-                  </div>
-                  {!isInCart(product.id, currentWeight) ? (
-                    <button className="add-to-cart" onClick={() => addToCart(product.id, currentWeight)}>
-                      Add to Cart
-                    </button>
-                  ) : (
-                    <div className="quantity-control">
-                      <button onClick={() => updateQuantity(product.id, currentWeight, -1)}>-</button>
-                      <span>{getCartQuantity(product.id, currentWeight)}</span>
-                      <button onClick={() => updateQuantity(product.id, currentWeight, 1)}>+</button>
+                  <div className="product-image-container">
+                    <span className={`product-badge ${badge}`}>{badgeLabels[badge]}</span>
+                    <img src={product.images[0]} alt={product.name} onClick={() => setSelectedProduct(product)} />
+                    <div className="quick-view-overlay">
+                      <button className="quick-view-btn" onClick={() => setSelectedProduct(product)}>Quick View</button>
                     </div>
-                  )}
+                  </div>
+                  <div className="product-info">
+                    <h3>{product.name}</h3>
+                    <div className="product-rating">
+                      <span>4.5</span>
+                    </div>
+                    <div className="product-tags">
+                      <span className="product-tag">✨ Fresh Today</span>
+                    </div>
+                    <p>{product.description || ''}</p>
+                    <div className="product-details">
+                      <select 
+                        className="grams-dropdown"
+                        value={currentWeight}
+                        onChange={(e) => {
+                          const newWeight = e.target.value;
+                          setSelectedWeights({...selectedWeights, [product.id]: newWeight});
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {Array.isArray(product.grams) ? product.grams.map((gram, idx) => (
+                          <option key={idx} value={gram}>{gram}</option>
+                        )) : <option value={product.grams}>{product.grams}</option>}
+                      </select>
+                      <div className="price-section">
+                        <span className="price">₹{currentPrice}</span>
+                      </div>
+                    </div>
+                    {!isInCart(product.id, currentWeight) ? (
+                      <button className="add-to-cart" onClick={() => addToCart(product.id, currentWeight)}>
+                        Add to Cart
+                      </button>
+                    ) : (
+                      <div className="quantity-control">
+                        <button onClick={() => updateQuantity(product.id, currentWeight, -1)}>-</button>
+                        <span>{getCartQuantity(product.id, currentWeight)}</span>
+                        <button onClick={() => updateQuantity(product.id, currentWeight, 1)}>+</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
               )
@@ -192,7 +211,8 @@ const Products = () => {
         <div className="modal-overlay" onClick={() => setShowCheckout(false)}>
           <div className="modal-content checkout-modal" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setShowCheckout(false)}>&times;</button>
-            <h2>Checkout</h2>
+            <h2>Order Summary</h2>
+            <div className="delivery-info">Free & Fast Delivery</div>
             <div className="checkout-items">
               {cartItems.map(item => (
                 <div key={item.id} className="checkout-item">

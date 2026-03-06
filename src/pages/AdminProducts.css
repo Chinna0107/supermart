@@ -326,6 +326,9 @@
   }
   
   .products-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
     font-size: 0.85rem;
   }
   
@@ -336,5 +339,15 @@
   
   .action-btns {
     flex-direction: column;
+  }
+
+  .admin-actions-bar {
+    justify-content: center;
+  }
+
+  .admin-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 }

@@ -20,7 +20,6 @@ const Footer = () => {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/products">Products</Link></li>
-            {/* <li><Link to="/faq">FAQ</Link></li> */}
           </ul>
         </div>
         <div className="footer-section">
@@ -28,9 +27,6 @@ const Footer = () => {
           <ul>
             <li><Link to="/faq">FAQ</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
-            {/* <li><Link to="/faq">Help Center</Link></li> */}
-            {/* <li><a href="tel:+919705947947">+91 9705947947</a></li> */}
-            {/* <li><a href="mailto:puresupply7@gmail.com">Email Us</a></li> */}
           </ul>
         </div>
         <div className="footer-section">

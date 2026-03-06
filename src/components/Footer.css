@@ -375,6 +375,15 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.gst-number {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  font-family: monospace;
+  letter-spacing: 0.5px;
 }
 
 .footer-bottom a {
@@ -466,5 +475,10 @@
     flex-direction: column;
     gap: 0.8rem;
     text-align: center;
+    justify-content: center;
+  }
+  
+  .gst-number {
+    order: 3;
   }
 }

@@ -56,8 +56,9 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>Made with ❤️ by <a href="https://staffarc.in" target="_blank" rel="noopener noreferrer">StaffArc</a></p>
         <p>© 2026 CM Super Mart. All rights reserved.</p>
+        <div className="gst-number">GST: 37GIHPB7745A1ZD</div>
+        <p>Made with ❤️ by <a href="https://staffarc.in" target="_blank" rel="noopener noreferrer">StaffArc</a></p>
       </div>
     </footer>
   );

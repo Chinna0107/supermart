@@ -47,7 +47,7 @@ const Login = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="login-box">
         <div className="login-logo">
-          <img src="/src/assets/logo.jpeg" alt="CM Mart" />
+          <img src="https://res.cloudinary.com/dgyykbmt6/image/upload/v1772460868/cm3_zvfuyu.jpg" alt="CM Mart" />
         </div>
         <h2>Welcome Back</h2>
         <form onSubmit={handleSubmit}>

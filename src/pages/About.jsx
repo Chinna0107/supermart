@@ -9,7 +9,7 @@ const About = () => {
         
         <div className="about-content">
           <div className="about-logo">
-            <img src="/src/assets/logo.jpeg" alt="CM Mart Logo" />
+            <img src="https://res.cloudinary.com/dgyykbmt6/image/upload/v1772460868/cm3_zvfuyu.jpg" alt="CM Mart Logo" />
           </div>
           
           <h2>Our Story</h2>

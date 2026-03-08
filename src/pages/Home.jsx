@@ -287,7 +287,7 @@ const Home = () => {
           <h2>Need Fresh Groceries? 🛒</h2>
           <p>Order Now from CM Super Mart</p>
           <div className="cta-buttons">
-            <button className="btn-call" onClick={() => window.location.href='tel:+919876543210'}>📞 Call Now</button>
+            <button className="btn-call" onClick={() => window.location.href='tel:+919100009907'}>📞 Call Now</button>
             <button className="btn-shop" onClick={() => navigate('/products')}>🛍️ Shop Now</button>
           </div>
         </div>

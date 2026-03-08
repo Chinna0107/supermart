@@ -14,7 +14,7 @@ const AdminHeader = () => {
   return (
     <header className="admin-header-bar">
       <div className="admin-header-logo">
-        <img src="/src/assets/logo.jpeg" alt="CM Mart" />
+        <img src="https://res.cloudinary.com/dgyykbmt6/image/upload/v1772460868/cm3_zvfuyu.jpg" alt="CM Mart" />
         <h1>CM Super Mart - Admin Panel</h1>
       </div>
       <div className="admin-header-actions">

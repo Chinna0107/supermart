@@ -9,6 +9,7 @@ import './AdminProducts.css';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
+  const [tags, setTags] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,8 @@ const AdminProducts = () => {
     grams: [],
     prices: {},
     description: '',
-    images: ['', '', '']
+    images: ['', '', ''],
+    tag: ''
   });
   const [showWeightDropdown, setShowWeightDropdown] = useState(false);
   const weightOptions = ['250g', '500g', '1kg', '2kg', '5kg', '500ml', '1L', '2L', '1pc', '6pc', '12pc'];
@@ -42,6 +44,7 @@ const AdminProducts = () => {
       
       if (response.data.success) {
         fetchProducts();
+        fetchTags();
       } else {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -52,6 +55,7 @@ const AdminProducts = () => {
       // If verify endpoint doesn't exist (404), proceed anyway
       if (error.response?.status === 404) {
         fetchProducts();
+        fetchTags();
       } else {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -77,6 +81,22 @@ const AdminProducts = () => {
         localStorage.removeItem('token');
         navigate('/login');
       }
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${config.API_URL}/api/tags`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data.success) {
+        setTags(response.data.tags);
+      } else if (Array.isArray(response.data)) {
+        setTags(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching tags:', error);
     }
   };
 
@@ -153,7 +173,8 @@ const AdminProducts = () => {
       grams: product.grams || [],
       prices: product.prices || {},
       description: product.description,
-      images: product.images
+      images: product.images,
+      tag: product.tag || ''
     });
     setShowForm(true);
   };
@@ -165,7 +186,8 @@ const AdminProducts = () => {
       grams: [],
       prices: {},
       description: '',
-      images: ['', '', '']
+      images: ['', '', ''],
+      tag: ''
     });
     setEditingProduct(null);
     setShowForm(false);
@@ -302,6 +324,18 @@ const AdminProducts = () => {
                 required
               />
             </div>
+            <div className="form-field">
+              <label>Tag</label>
+              <select
+                value={formData.tag}
+                onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
+              >
+                <option value="">No Tag</option>
+                {tags.map(tag => (
+                  <option key={tag.id} value={tag.name}>{tag.name}</option>
+                ))}
+              </select>
+            </div>
             <div className="form-field full-width">
               <label>Product Images (URLs) *</label>
               <div className="image-inputs">
@@ -352,6 +386,7 @@ const AdminProducts = () => {
               <th>Category</th>
               <th>Weight</th>
               <th>Price</th>
+              <th>Tag</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -370,6 +405,7 @@ const AdminProducts = () => {
                     : `₹${product.price || 0}`
                   }
                 </td>
+                <td>{product.tag || '-'}</td>
                 <td>
                   <div className="action-btns">
                     <button className="edit-btn" onClick={() => handleEdit(product)}>Edit</button>

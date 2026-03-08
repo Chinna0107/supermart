@@ -258,24 +258,13 @@
 }
 
 .social-link {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  border-radius: 50%;
   color: #166534;
-  font-size: 1.3rem;
-  border: 2px solid #22c55e;
-  transition: .4s;
+  font-size: 1.5rem;
+  transition: color 0.3s;
 }
 
 .social-link:hover {
-  transform: translateY(-8px) scale(1.15);
-  background: #22c55e;
-  color: white;
-  box-shadow: 0 10px 30px rgba(34,197,94,.5);
+  color: #22c55e;
 }
 
 .footer-divider {

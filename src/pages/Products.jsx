@@ -147,14 +147,13 @@ const Products = () => {
                 const defaultWeight = Array.isArray(product.grams) ? product.grams[0] : product.grams;
                 const currentWeight = selectedWeights[product.id] !== undefined ? selectedWeights[product.id] : defaultWeight;
                 const currentPrice = product.prices?.[currentWeight] || product.price || 0;
-                const badges = ['bestseller', 'popular', 'new', 'offer'];
-                const badge = badges[idx % 4];
+                const badge = product.tag || '';
                 const badgeLabels = { bestseller: '🔥 Best Seller', popular: '⭐ Popular', new: '🆕 New', offer: '💰 Offer' };
                 
                 return (
                 <div key={product.id} className="product-item">
                   <div className="product-image-container">
-                    <span className={`product-badge ${badge}`}>{badgeLabels[badge]}</span>
+                    {badge && <span className={`product-badge ${badge}`}>{badgeLabels[badge] || badge}</span>}
                     <img src={product.images[0]} alt={product.name} onClick={() => setSelectedProduct(product)} />
                     <div className="quick-view-overlay">
                       <button className="quick-view-btn" onClick={() => setSelectedProduct(product)}>Quick View</button>
@@ -212,7 +211,14 @@ const Products = () => {
           <div className="modal-content checkout-modal" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setShowCheckout(false)}>&times;</button>
             <h2>Order Summary</h2>
-            <div className="delivery-info">Free & Fast Delivery</div>
+            <div className="delivery-notice">
+              <h3>📢 Delivery Information</h3>
+              <ul>
+                <li>✓ Minimum order value: ₹500</li>
+                <li>✓ Free delivery within 5km radius</li>
+                <li>✓ Delivery available in: రంగాపురం, ములగలంపాడు, బోగోలు, ముడిచెర్ల, వేములపల్లి, కొత్తపల్లి, K గోకవరం, గొల్లగూడెం, పుప్పాల వారి గూడెం</li>
+              </ul>
+            </div>
             <div className="checkout-items">
               {cartItems.map(item => (
                 <div key={item.id} className="checkout-item">

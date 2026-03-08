@@ -668,6 +668,38 @@
   font-size: 1.5rem;
 }
 
+.delivery-notice {
+  background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+  padding: 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 2px solid #FF9800;
+}
+
+.delivery-notice h3 {
+  margin: 0 0 0.75rem 0;
+  color: #FF9800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.delivery-notice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.delivery-notice li {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .checkout-form {
   display: flex;
   flex-direction: column;
